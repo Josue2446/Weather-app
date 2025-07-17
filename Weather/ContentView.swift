@@ -28,14 +28,37 @@ struct ContentView: View {
                 
                 
                 HStack(spacing: 18){
-                    WeatherDayView(dayOfWeek: "Mon", imageName: "cloud.sun.rain.fill", temp: 65)
-                    WeatherDayView(dayOfWeek: "Tue", imageName: "cloud.sun.rain.fill", temp: 68)
-                    WeatherDayView(dayOfWeek: "Wed", imageName: "sun.haze.fill", temp: 75)
-                    WeatherDayView(dayOfWeek: "Thu", imageName: "sun.haze.fill", temp: 72)
-                    WeatherDayView(dayOfWeek: "Fri", imageName: "sun.dust.fill", temp: 70)
+                    WeatherDayView(dayOfWeek: "Mon",
+                                    imageName: "cloud.sun.rain.fill",
+                                    temp: 65)
+                    WeatherDayView(dayOfWeek: "Tue",
+                                    imageName: "cloud.sun.rain.fill",
+                                    temp: 68)
+                    WeatherDayView(dayOfWeek: "Wed",
+                                    imageName: "sun.haze.fill",
+                                    temp: 75)
+                    WeatherDayView(dayOfWeek: "Thu",
+                                    imageName: "sun.haze.fill",
+                                    temp: 72)
+                    WeatherDayView(dayOfWeek: "Fri",
+                                    imageName: "sun.dust.fill",
+                                    temp: 70)
                 }
                 
                 Spacer()
+                
+                Button {
+                    print("Skyler")
+                } label: {
+                    Text("Tap here")
+                        .frame(width: 100, height: 50)
+                        .background(Color.white)
+                        .font(.system(size: 20, weight: .bold, design: .default))
+                        .cornerRadius(10)
+                }
+                
+                Spacer()
+                
             }
         }
     }
