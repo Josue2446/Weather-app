@@ -3,29 +3,11 @@ import SwiftUI
 struct ContentView: View {
     var body: some View {
         ZStack{
-            LinearGradient(
-                            gradient: Gradient(colors: [.blue, Color("Lightblue")]),
-                            startPoint: .topLeading,
-                            endPoint: .bottomTrailing)
-                                .edgesIgnoringSafeArea(.all)
+            BackgroundView(topColor: .blue, bottomColor: .lightblue)
             VStack{
-                Text("Portland, OR")
-                    .font(.system(size: 32, weight: .medium, design: .default))
-                    .foregroundColor(.white)
-                    .padding(.top, 50)
-               VStack (spacing: 9){
-                   Image(systemName: "cloud.sun.fill")
-                        .renderingMode(.original)
-                        .resizable()
-                        .aspectRatio(contentMode: .fit)
-                        .frame(width: 180, height: 180)
-                        
-                        Text("76°F")
-                       .font(.system(size: 70, weight: .medium))
-                       .foregroundColor(.white)
-               }.padding(.bottom, 40)
-                
-                
+                CityName(city: "Portland, OR")
+                                
+                MainWeather(weatherName: "sun.haze.fill", temp: 76)
                 
                 HStack(spacing: 18){
                     WeatherDayView(dayOfWeek: "Mon",
@@ -47,15 +29,12 @@ struct ContentView: View {
                 
                 Spacer()
                 
-                Button {
-                    print("Skyler")
-                } label: {
-                    Text("Tap here")
-                        .frame(width: 100, height: 50)
-                        .background(Color.white)
-                        .font(.system(size: 20, weight: .bold, design: .default))
-                        .cornerRadius(10)
-                }
+                WeatherButton(
+                    displayText: "Hello",
+                    buttonText: "Click me",
+                    backgroundColor: .white,
+                    textColor: .blue
+                )
                 
                 Spacer()
                 
@@ -91,3 +70,46 @@ struct WeatherDayView: View {
         }
     }
 }
+
+struct BackgroundView: View {
+    var topColor: Color
+    var bottomColor: Color
+    
+    var body: some View {
+        LinearGradient(
+            gradient: Gradient(colors: [topColor, bottomColor]),
+            startPoint: .topLeading,
+            endPoint: .bottomTrailing)
+        .edgesIgnoringSafeArea(.all)
+    }
+}
+
+struct CityName: View {
+    var city: String
+    
+    var body: some View {
+        Text(city)
+            .font(.system(size: 32, weight: .medium, design: .default))
+            .foregroundColor(.white)
+            .padding(.top, 50)
+    }
+}
+
+struct MainWeather: View {
+    var weatherName: String
+    var temp: Int
+    var body: some View {
+        VStack (spacing: 9){
+                   Image(systemName: weatherName)
+                        .renderingMode(.original)
+                        .resizable()
+                        .aspectRatio(contentMode: .fit)
+                        .frame(width: 180, height: 180)
+                        
+                        Text("\(temp)°")
+                       .font(.system(size: 70, weight: .medium))
+                       .foregroundColor(.white)
+               }.padding(.bottom, 40)
+    }
+}
+
