@@ -1,8 +1,15 @@
 import SwiftUI
 
 struct ContentView: View {
-    
     @State private var isNight = false
+    
+    let weatherData = [
+        WeatherDay(day: "Mon", imageName: "cloud.sun.rain.fill", temp: 65),
+        WeatherDay(day: "Tue", imageName: "cloud.sun.rain.fill", temp: 68),
+        WeatherDay(day: "Wed", imageName: "sun.haze.fill", temp: 75),
+        WeatherDay(day: "Thu", imageName: "sun.haze.fill", temp: 72),
+        WeatherDay(day: "Fri", imageName: "sun.dust.fill", temp: 70)
+    ]
     
     var body: some View {
         ZStack{
@@ -11,25 +18,14 @@ struct ContentView: View {
             VStack{
                 CityName(city: "Portland, OR")
                                 
-                MainWeather(weatherName: isNight ? "moon.stars.fill" : "sun.haze.fill",
-                            temp: isNight ? 52 : 76)
+                MainWeather(isNight : $isNight)
                 
-                HStack(spacing: 18){
-                    WeatherDayView(dayOfWeek: "Mon",
-                                    imageName: "cloud.sun.rain.fill",
-                                    temp: 65)
-                    WeatherDayView(dayOfWeek: "Tue",
-                                    imageName: "cloud.sun.rain.fill",
-                                    temp: 68)
-                    WeatherDayView(dayOfWeek: "Wed",
-                                    imageName: "sun.haze.fill",
-                                    temp: 75)
-                    WeatherDayView(dayOfWeek: "Thu",
-                                    imageName: "sun.haze.fill",
-                                    temp: 72)
-                    WeatherDayView(dayOfWeek: "Fri",
-                                    imageName: "sun.dust.fill",
-                                    temp: 70)
+                HStack(spacing: 18) {
+                    ForEach(weatherData) { dayData in
+                        WeatherDayView(dayOfWeek: dayData.day,
+                                       imageName: dayData.imageName,
+                                       temp: dayData.temp)
+                    }
                 }
                 
                 Spacer()
@@ -104,20 +100,25 @@ struct CityName: View {
 }
 
 struct MainWeather: View {
-    var weatherName: String
-    var temp: Int
+    @Binding var isNight : Bool
     var body: some View {
         VStack (spacing: 9){
-                   Image(systemName: weatherName)
+                   Image(systemName: isNight ? "moon.stars.fill" : "sun.haze.fill")
                         .renderingMode(.original)
                         .resizable()
                         .aspectRatio(contentMode: .fit)
                         .frame(width: 180, height: 180)
                         
-                        Text("\(temp)°")
+                        Text("\(isNight ? 52 : 76)°")
                        .font(.system(size: 70, weight: .medium))
                        .foregroundColor(.white)
                }.padding(.bottom, 40)
     }
 }
 
+struct WeatherDay: Identifiable {
+    let id = UUID()
+    let day: String
+    let imageName: String
+    let temp: Int
+}
